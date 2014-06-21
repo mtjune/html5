@@ -28,6 +28,8 @@ var isMetronome = false;
 var bpm = 60;
 var tempo = 4;
 
+var clickflag = false;
+
 
 // 初期化メソッド
 function initonload(){
@@ -35,20 +37,37 @@ function initonload(){
 	
 	// イベント登録
 	var canvas = document.getElementById("cvs");
-	canvas.ontouchstart = function(e){ playPiano(e, true);};
-	canvas.ontouchmove = function(e){ playPiano(e, true);};
-	canvas.ontouchend = function(e){ playPiano(e, false);};
+	canvas.ontouchstart = function(e){ touchPiano(e, 1);};
+	canvas.ontouchmove = function(e){ touchPiano(e, 2);};
+	canvas.ontouchend = function(e){ touchPiano(e, 3);};
+	
+	//canvas.onmousedown = function(e){ clickPiano(e, true);};
+	// canvas.onmousemove = function(e){ clickPiano(e, true);};
+	canvas.onmouseup = function(e){ clickPiano(e, 3);};
+	
+	canvas.addEventListener("mousedown", m_down, true);
+	canvas.addEventListener("mousemove", m_move, true);
 	
 	// 音源を登録
 	for(var i = 0; i < oto.length; i++){
 		audio.push(new Audio("ongen/" + oto[i]));
+		audio[i].loop = true;
 	}
+}
+
+function m_down(e){
+	clickPiano(e, 1);
+}
+function m_move(e){
+	clickPiano(e, 2);
 }
 
 
 function myPlay(i){
   //var audio = new Audio("ongen/" + oto[i]);
   //audio.play();
+  audio[i].load();
+  audio[i].loop = true;
   audio[i].play();
 }
 
@@ -120,24 +139,71 @@ function drawKey(){
 }
 
 // タッチ処理
-function playPiano(event, flag){
-	
+function touchPiano(event, flag){
 	// 全ての指に対して処理
 	for(var i = 0; i < event.touches.length; i++){
 		var e = event.touches[i];
 		
-		// 全ての鍵盤に対して判定を行う
-		for(var j = 0; j < oto.length; j++){
-			// X軸方向のon条件
-			var onflagX = (e.pageX >= KEY_BASE_X + KEY_BASE_X * j)&&(e.pageX <= KEY_BASE_X + KEY_W_WIDTH * (j + 1));
-			// Y軸方向のon条件
-			var onflagY = (e.pageY >= KEY_BASE_Y)&&(e.pageY <= KEY_BASE_Y + KEY_W_HEIGHT);
-			
-			// X,Yの条件を満たしなおかつその音が鳴ってなければ鳴らす.
-			if(onflagX && onflagY && audio[j].ended){
+		var etrans = { X : e.pageX, Y : e.pageY };
+		
+		playPiano(etrans, flag);
+	}
+}
+
+// クリック処理
+function clickPiano(event, type){
+	//var rect = event.target.getBoundingClientRect();
+	var canvas = document.getElementById("cvs");
+	var etrans = {
+		X : event.clientX - canvas.offsetLeft,
+		Y : event.clientY - canvas.offsetTop
+	};
+	playPiano(etrans, type);
+}
+
+
+// ピアノを弾くよ
+function playPiano(e, type){
+	
+	// 全ての鍵盤に対して判定を行う
+	//document.getElementById("debugmemo").innerHTML = e.X.toString() + " " + e.Y.toString();
+	for(var j = 0; j < oto.length; j++){
+		// X軸方向のon条件
+		var onflagX = (e.X > KEY_BASE_X + KEY_W_WIDTH * j)&&(e.X <= KEY_BASE_X + KEY_W_WIDTH * (j + 1));
+		// Y軸方向のon条件
+		var onflagY = (e.Y >= KEY_BASE_Y)&&(e.Y <= KEY_BASE_Y + KEY_W_HEIGHT);
+		
+		var onflags = onflagX && onflagY;
+		
+		if(onflags)
+			document.getElementById("debugmemo").innerHTML = j.toString() + type.toString();
+		
+		if(type === 1){
+			clickflag = true;
+			if(onflags){
+				audio[j].load();
 				audio[j].play();
 			}
-			
+		}else if(type === 2){
+			if(clickflag){
+				if(onflags){
+					if(audio[j].paused){
+						audio[j].load();
+						audio[j].play();
+					}
+				}else{
+					if(!audio[j].paused){
+						audio[j].pause();
+						audio[j].currentTime = 0;
+					}
+				}
+			}
+		}else{
+			clickflag = false;
+			if(onflags && !audio[j].paused){
+				audio[j].pause();
+				audio[j].currentTime = 0;
+			}
 		}
-	}
+	}	
 }
