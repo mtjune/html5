@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)http://www.u.tsukuba.ac.jp/~tokii.maki.ga/html5/oto.html -->
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script src="oto.js"></script>
+		<link rel="stylesheet" type="text/css" href="css.css">
+		<title>ドレミ</title>
+	</head>
+
+	<body onload="initonload()">
+<font size="20">ド &nbsp; レ &nbsp; ミ &nbsp; ！ </font>ファソラシド
+<br>
+(音声ファイル:Mathematicaで作成)<br>
+
+<form name="inputform">
+	テンポ : <input type="number" name="bpm" value="120" min="15" max="300"> &nbsp; &nbsp;
+	拍子 : <input type="number" name="tempo" value="4" min="1" max="8"> &nbsp; &nbsp;
+	<input type="button" value="メトロノーム" onclick="clickMetronome(1)" style="width:80pt;font-size:18pt;"><br>
+</form>
+<div id="indisMetroOn">メトロノーム:OFF</div>
+<div id="nowbpm">現在のテンポ:120</div>
+<div id="nowtempo">現在の拍子:4</div>
+<hr>
+
+<p>
+<input type="button" value="ド" onclick="myPlay(0)" style="width:40pt;font-size:18pt;">
+&nbsp; &nbsp;
+<input type="button" value="レ" onclick="myPlay(1)" style="width:40pt;font-size:18pt;">
+&nbsp; &nbsp;
+<input type="button" value="ミ" onclick="myPlay(2)" style="width:40pt;font-size:18pt;">
+&nbsp; &nbsp;
+<input type="button" value="ファ" onclick="myPlay(3)" style="width:40pt;font-size:18pt;">
+&nbsp; &nbsp;
+<input type="button" value="ソ" onclick="myPlay(4)" style="width:40pt;font-size:18pt;">
+&nbsp; &nbsp;
+<input type="button" value="ラ" onclick="myPlay(5)" style="width:40pt;font-size:18pt;">
+&nbsp; &nbsp;
+<input type="button" value="シ" onclick="myPlay(6)" style="width:40pt;font-size:18pt;">
+&nbsp; &nbsp;
+<input type="button" value="ド" onclick="myPlay(7)" style="width:40pt;font-size:18pt;">
+
+</p>
+
+<canvas id="cvs" width="600" height="500"></canvas>
+
+</body>
+</html>
