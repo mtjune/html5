@@ -33,7 +33,7 @@ var clickflag = false;
 
 // 初期化メソッド
 function initonload(){
-	drawKey();
+	drawKeys();
 	
 	// イベント登録
 	var canvas = document.getElementById("cvs");
@@ -41,12 +41,10 @@ function initonload(){
 	canvas.ontouchmove = function(e){ touchPiano(e, 2);};
 	canvas.ontouchend = function(e){ touchPiano(e, 3);};
 	
-	//canvas.onmousedown = function(e){ clickPiano(e, true);};
-	// canvas.onmousemove = function(e){ clickPiano(e, true);};
+	canvas.onmousedown = function(e){ clickPiano(e, 1);};
+	canvas.onmousemove = function(e){ clickPiano(e, 2);};
 	canvas.onmouseup = function(e){ clickPiano(e, 3);};
 	
-	canvas.addEventListener("mousedown", m_down, true);
-	canvas.addEventListener("mousemove", m_move, true);
 	
 	// 音源を登録
 	for(var i = 0; i < oto.length; i++){
@@ -55,20 +53,10 @@ function initonload(){
 	}
 }
 
-function m_down(e){
-	clickPiano(e, 1);
-}
-function m_move(e){
-	clickPiano(e, 2);
-}
-
 
 function myPlay(i){
-  //var audio = new Audio("ongen/" + oto[i]);
-  //audio.play();
-  audio[i].load();
-  audio[i].loop = true;
-  audio[i].play();
+  var audiof = new Audio("ongen/" + oto[i]);
+  audiof.play();
 }
 
 function indicateBPM(str){
@@ -116,26 +104,32 @@ function clickMetronome(){		// メトロノームボタンがクリックされ�
 	indisMetroOn(isMetronome);
 }
 
-function drawKey(){
+function drawKeys(){
 	
 	
 	for(var i = 0; i < oto.length; i++){
-		var cancon = document.getElementById("cvs").getContext("2d");
-		cancon.beginPath();
-		cancon.lineWidth = KEY_LINE_WIDTH;
-		cancon.strokeStyle = KEY_LINE_COLOR;
-		
-		cancon.moveTo(KEY_BASE_X + KEY_W_WIDTH * i, KEY_BASE_Y);
-		cancon.lineTo(KEY_BASE_X + KEY_W_WIDTH * i, KEY_BASE_Y + KEY_W_HEIGHT);
-		cancon.lineTo(KEY_BASE_X + KEY_W_WIDTH * (i + 1), KEY_BASE_Y + KEY_W_HEIGHT);
-		cancon.lineTo(KEY_BASE_X + KEY_W_WIDTH * (i + 1), KEY_BASE_Y);
-		cancon.closePath();
-		cancon.stroke();
-		
-		cancon.fillStyle = "#ffffff";
-		cancon.fill();
-		
+		drawKey(i, 1);
 	}
+}
+function drawKey(i, mode){
+	var cancon = document.getElementById("cvs").getContext("2d");
+	cancon.beginPath();
+	cancon.lineWidth = KEY_LINE_WIDTH;
+	cancon.strokeStyle = KEY_LINE_COLOR;
+	
+	cancon.moveTo(KEY_BASE_X + KEY_W_WIDTH * i, KEY_BASE_Y);
+	cancon.lineTo(KEY_BASE_X + KEY_W_WIDTH * i, KEY_BASE_Y + KEY_W_HEIGHT);
+	cancon.lineTo(KEY_BASE_X + KEY_W_WIDTH * (i + 1), KEY_BASE_Y + KEY_W_HEIGHT);
+	cancon.lineTo(KEY_BASE_X + KEY_W_WIDTH * (i + 1), KEY_BASE_Y);
+	cancon.closePath();
+	cancon.stroke();
+	
+	if(mode === 2){
+		cancon.fillStyle = "#999999";
+	}else{
+		cancon.fillStyle = "#ffffff";
+	}
+	cancon.fill();
 }
 
 // タッチ処理
@@ -160,9 +154,6 @@ function clickPiano(event, type){
 	};
 	playPiano(etrans, type);
 }
-
-
-// ピアノを弾くよ
 function playPiano(e, type){
 	
 	// 全ての鍵盤に対して判定を行う
@@ -172,7 +163,6 @@ function playPiano(e, type){
 		var onflagX = (e.X > KEY_BASE_X + KEY_W_WIDTH * j)&&(e.X <= KEY_BASE_X + KEY_W_WIDTH * (j + 1));
 		// Y軸方向のon条件
 		var onflagY = (e.Y >= KEY_BASE_Y)&&(e.Y <= KEY_BASE_Y + KEY_W_HEIGHT);
-		
 		var onflags = onflagX && onflagY;
 		
 		if(onflags)
@@ -204,6 +194,12 @@ function playPiano(e, type){
 				audio[j].pause();
 				audio[j].currentTime = 0;
 			}
+		}
+		
+		if(onflags && clickflag){
+			drawKey(j, 2);
+		}else{
+			drawKey(j, 1);
 		}
 	}	
 }
