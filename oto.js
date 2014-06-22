@@ -40,9 +40,13 @@ function initonload(){
 	
 	// イベント登録
 	var canvas = document.getElementById("cvs");
-	canvas.ontouchstart = function(e){ touchPiano(e, 1);};
-	canvas.ontouchmove = function(e){ touchPiano(e, 2);};
-	canvas.ontouchend = function(e){ touchPiano(e, 3);};
+	// canvas.ontouchstart = function(e){ touchPiano(e, 1);};
+	// canvas.ontouchmove = function(e){ touchPiano(e, 2);};
+	// canvas.ontouchend = function(e){ touchPiano(e, 3);};
+	
+	canvas.addEventListener("touchstart", t_start, false);
+	canvas.addEventListener("touchmove", t_move, false);
+	canvas.addEventListener("touchend", t_end, false);
 	
 	canvas.onmousedown = function(e){ clickPiano(e, 1);};
 	canvas.onmousemove = function(e){ clickPiano(e, 2);};
@@ -54,6 +58,16 @@ function initonload(){
 		audio.push(new Audio("ongen/" + oto[i]));
 		audio[i].loop = true;
 	}
+}
+
+function t_start(e){
+	touchPiano(e, 1);
+}
+function t_move(e){
+	touchPiano(e, 2);
+}
+function t_end(e){
+	touchPiano(e, 3);
 }
 
 
