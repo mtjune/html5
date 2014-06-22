@@ -126,8 +126,12 @@ function drawKeys(){
 	for(var i = 0; i < oto.length; i++)
 		drawKey(i, 1);
 
-	for(var i = 0; i < oto.length; i++)
+	for(var i = 0; i < oto.length - 1; i++){
+		if(i===3){
+			continue;
+		}
 		drawKeyB(i, 1);
+	}
 
 }
 function drawKey(i, mode){
