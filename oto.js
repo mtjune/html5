@@ -13,7 +13,7 @@ var KEY_BASE_X		= 10.0;		// 鍵盤の左上の点
 var KEY_BASE_Y		= 10.0;		// 鍵盤の左上の点
 var KEY_W_WIDTH		= 70.0;		// 白鍵一つの横幅
 var KEY_W_HEIGHT	= 250.0;	// 白鍵一つの縦幅
-var KEY_B_WIDTH		= 45.0;		// 黒鍵一つの横幅
+var KEY_B_WIDTH		= 35.0;		// 黒鍵一つの横幅
 var KEY_B_HEIGHT	= 150.0;	// 黒鍵一つの縦幅
 
 var KEY_LINE_WIDTH	= 0.5;		// 鍵盤の線の太さ
