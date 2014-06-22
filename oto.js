@@ -7,6 +7,7 @@
 
 
 // ↓ 定数定義 ↓
+
 var KEY_COUNT		= 7;		// 鍵盤の総数
 
 var KEY_BASE_X		= 10.0;		// 鍵盤の左上の点
@@ -197,7 +198,6 @@ function clickPiano(event, type){
 function playPiano(e, type){
 	
 	// 全ての鍵盤に対して判定を行う
-	//document.getElementById("debugmemo").innerHTML = e.X.toString() + " " + e.Y.toString();
 	for(var j = 0; j < oto.length; j++){
 		// X軸方向のon条件
 		var onflagX = (e.X > KEY_BASE_X + KEY_W_WIDTH * j)&&(e.X <= KEY_BASE_X + KEY_W_WIDTH * (j + 1));
@@ -235,7 +235,6 @@ function playPiano(e, type){
 				audio[j].currentTime = 0;
 			}
 		}
-		
 		if(onflags && clickflag){
 			drawKey(j, 2);
 		}else{
