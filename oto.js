@@ -239,8 +239,13 @@ function playPiano(e, type){
 		if(onflags && clickflag){
 			drawKey(j, 2);
 		}else{
-			// drawKey(j, 1);
-			drawKeys();
+			drawKey(j, 1);
+			for(var i = 0; i < oto.length - 1; i++){
+				if(i===2 || i===6){
+					continue;
+				}
+				drawKeyB(i, 1);
+			}
 		}
 	}	
 }
