@@ -123,10 +123,12 @@ function clickMetronome(){		// メトロノームボタンがクリックされ�
 
 function drawKeys(){
 	
-	
-	for(var i = 0; i < oto.length; i++){
+	for(var i = 0; i < oto.length; i++)
 		drawKey(i, 1);
-	}
+
+	for(var i = 0; i < oto.length; i++)
+		drawKeyB(i, 1);
+
 }
 function drawKey(i, mode){
 	var cancon = document.getElementById("cvs").getContext("2d");
@@ -147,6 +149,23 @@ function drawKey(i, mode){
 		cancon.fillStyle = "#ffffff";
 	}
 	cancon.fill();
+}
+function drawKeyB(i, mode){
+	var cancon = document.getElementById("cvs").getContext("2d");
+	cancon.beginPath();
+	cancon.lineWidth = KEY_LINE_WIDTH;
+	cancon.strokeStyle = KEY_LINE_COLOR;
+
+	cancon.moveTo(KEY_BASE_X + KEY_W_WIDTH * (i + 1) - KEY_B_WIDTH / 2, KEY_BASE_Y);
+	cancon.lineTo(KEY_BASE_X + KEY_W_WIDTH * (i + 1) - KEY_B_WIDTH / 2, KEY_BASE_Y + KEY_B_HEIGHT);
+	cancon.lineTo(KEY_BASE_X + KEY_W_WIDTH * (i + 1) + KEY_B_WIDTH / 2, KEY_BASE_Y + KEY_B_HEIGHT);
+	cancon.lineTo(KEY_BASE_X + KEY_W_WIDTH * (i + 1) + KEY_B_WIDTH / 2, KEY_BASE_Y);
+	cancon.closePath();
+	cancon.stroke();
+
+	cancon.fillStyle = "#222222";
+	cancon.fill();
+
 }
 
 // タッチ処理
@@ -216,7 +235,8 @@ function playPiano(e, type){
 		if(onflags && clickflag){
 			drawKey(j, 2);
 		}else{
-			drawKey(j, 1);
+			// drawKey(j, 1);
+			drawKeys();
 		}
 	}	
 }
