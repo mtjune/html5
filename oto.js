@@ -127,7 +127,7 @@ function drawKeys(){
 		drawKey(i, 1);
 
 	for(var i = 0; i < oto.length - 1; i++){
-		if(i===3){
+		if(i===2){
 			continue;
 		}
 		drawKeyB(i, 1);
