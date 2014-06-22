@@ -35,8 +35,6 @@ var clickflag = false;
 function initonload(){
 	drawKeys();
 	
-	// canvas以外のtouchstartを抑止
-	document.body.ontouchstart = function(e){ e.preventDefault(); };
 	
 	// イベント登録
 	var canvas = document.getElementById("cvs");
@@ -52,6 +50,8 @@ function initonload(){
 	canvas.onmousemove = function(e){ clickPiano(e, 2);};
 	canvas.onmouseup = function(e){ clickPiano(e, 3);};
 	
+	// canvas以外のtouchstartを抑止
+	document.body.ontouchstart = function(e){ e.preventDefault(); };
 	
 	// 音源を登録
 	for(var i = 0; i < oto.length; i++){
