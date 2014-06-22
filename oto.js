@@ -35,6 +35,9 @@ var clickflag = false;
 function initonload(){
 	drawKeys();
 	
+	// canvas以外のtouchstartを抑止
+	document.body.ontouchstart = function(e){ e.preventDefault(); };
+	
 	// イベント登録
 	var canvas = document.getElementById("cvs");
 	canvas.ontouchstart = function(e){ touchPiano(e, 1);};
