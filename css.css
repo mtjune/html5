@@ -8,6 +8,12 @@ and open the template in the editor.
     Author     : yukich
 */
 
+body{
+	text-align: center;
+}
+
+
+
 #cvs{
 	background-color:#dddddd;
 	border:#dddddd 2px solid; 
