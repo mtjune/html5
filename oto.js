@@ -205,9 +205,6 @@ function playPiano(e, type){
 		var onflagY = (e.Y >= KEY_BASE_Y)&&(e.Y <= KEY_BASE_Y + KEY_W_HEIGHT);
 		var onflags = onflagX && onflagY;
 		
-		if(onflags)
-			document.getElementById("debugmemo").innerHTML = j.toString() + type.toString();
-		
 		if(type === 1){
 			clickflag = true;
 			if(onflags){
